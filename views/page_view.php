@@ -17,6 +17,8 @@
 
                     cookies_table_view($cookies);
                 ?>
+
+            <script src="javascript/cookies.js"></script>
             </body>
         </html>
 <?php

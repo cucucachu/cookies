@@ -12,7 +12,7 @@
             $this->price = $price;
         }
 
-        static function getCookies() {
+        static function get_cookies() {
             global $mysqli;
             $query = "SELECT * FROM cookies";
 

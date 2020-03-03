@@ -16,7 +16,7 @@
                 echo "<tr>";
                 echo "<td>$cookie->name</td>";
                 echo "<td>$$cookie->price</td>";
-                echo "<td><button class=\"btn btn-primary\" onclick=\"console.log('clicked $cookie->name');\">Add to Cart</button></td>";
+                echo "<td><button class=\"btn btn-primary\" onclick=\"addCookieToCart($cookie->id)\">Add to Cart</button></td>";
                 echo "</tr>";
             }
 ?>
