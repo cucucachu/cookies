@@ -1,7 +1,7 @@
 <?php
     function cookies_table_view($cookies) {
 ?>
-    <table class="table">
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th scope="col">Cookie</th>
