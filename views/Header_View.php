@@ -1,13 +1,7 @@
 <?php
 
-    class Header_View {
-        function __construct($title) {
-            $this->title = $title;
-        }
-
-        function render() {
-            echo "<h1>$this->title</h1>";
-        }
+    function header_view($title) {
+        echo "<h1>$title</h1>";
     }
 
 ?>

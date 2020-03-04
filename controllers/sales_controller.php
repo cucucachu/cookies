@@ -1,11 +1,11 @@
 <?php
+    // Models
+    include "models/connection.php";
     include "models/sales_model.php";
     include "models/buyer_model.php";
     include "models/cookie_sales_model.php";
 
-
-    include "models/connection.php";
-
+    // Views
     include "views/sale_rows_view.php";
 
     $mysqli = connect();

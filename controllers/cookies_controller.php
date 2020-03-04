@@ -1,4 +1,6 @@
 <?php
+
+    // Models
     include "models/cookies_model.php";
     include "models/connection.php";
     $mysqli = connect();

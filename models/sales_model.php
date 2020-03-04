@@ -104,11 +104,6 @@
         return $response;
     }
 
-    function find_sale() {
-
-    }
-
-
     function insert_sale($buyer_id) {
         global $mysqli;
         $query = "INSERT INTO `sale` (`id`, `buyer_id`, `date`) VALUES (NULL, '$buyer_id', CURRENT_DATE)";

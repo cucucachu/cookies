@@ -1,4 +1,5 @@
 <?php
+    // Views
     include "views/sale_as_row_view.php";
     
     function sale_rows_view($sales) {
