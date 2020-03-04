@@ -1,5 +1,5 @@
 let cookies = [];
-const cart = {};
+let cart = {};
 
 const cartBody = document.getElementById('cart_body');
 
@@ -49,6 +49,12 @@ function fetchCookies() {
     fetch(url)
         .then(response => response.json())
         .then(response => cookies = response);
+}
+
+async function fetchSalesRows() {
+    const url = 'http://localhost/cookies/routes/get/sale_rows';
+
+    return (await fetch(url)).text();
 }
 
 function calculateTotal() {
@@ -123,4 +129,65 @@ function renderCart() {
     }
 }
 
+function renderError(errorMessage) {
+    const errorAlert = document.getElementById('error');
+
+    if (errorMessage) {
+        errorAlert.innerHTML = errorMessage;
+        errorAlert.hidden = false;
+    }
+    else {
+        errorAlert.hidden = true;
+    }
+
+}
+
+async function postSale() {
+    const url = 'http://localhost/cookies/routes/post/checkout';
+    const firstName = document.getElementById('first_name').value;
+    const lastName = document.getElementById('last_name').value;
+
+    if (firstName === '' || lastName === '') {
+        throw new Error('Please provide first and last name.');
+    }
+
+    const request = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            firstName,
+            lastName,
+            cart,
+        }),
+    }
+
+    return fetch(url, request);
+}
+
+async function checkout() {
+    try {
+        await postSale();
+    }
+    catch(error) {
+        renderError(error.message);
+        return;
+    }
+
+    renderError();
+
+    const salesBody = document.getElementById('sales_body');
+
+    cart = {};
+    renderCart();
+    // clear sales table body
+    while (salesBody.lastChild) {
+        salesBody.removeChild(salesBody.lastChild);
+    }
+
+    salesBody.innerHTML = await fetchSalesRows();
+}
+
+document.getElementById('checkout_button').addEventListener('click', checkout);
 fetchCookies();

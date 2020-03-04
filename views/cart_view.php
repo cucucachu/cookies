@@ -18,6 +18,16 @@
         </table>
 
         <p id="total" class="text-align-right"></p>
+        <form>
+            <div class="form-group">
+                <label>First Name</label>
+                <input class="form-control" type="text" id="first_name">
+                <label>Last Name</label>
+                <input class="form-control" type="text" id="last_name">
+            </div>
+        </form>
+
+        <button class="btn btn-primary" id="checkout_button">Checkout</button>
     </div>
 <?php 
     }
