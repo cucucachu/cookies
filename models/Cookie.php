@@ -20,11 +20,11 @@
         //   into the database.
         //   Thows an exception if the cookie has an id (indicating it is already in the database).
         function insert() {
+            global $mysqli;
+
             if ($this->id !== null) {
                 throw new Exception('cookie.insert() called on existing cookie.' . (string)$this->id);
             }
-
-            global $mysqli;
             $query = "INSERT INTO `cookies` (`id`, `name`, `price`) VALUES (NULL, '$this->name', '$this->price')";
     
             return $mysqli->query($query);
@@ -32,12 +32,24 @@
 
         // This non-static method can be called on an instance of cookie to update the cookie in the database.
         function update() {
+            global $mysqli;
+
             if ($this->id === null) {
                 throw new Exception('cookie.update() called on cookie not yet in the database.');
             }
-
-            global $mysqli;
             $query = "UPDATE `cookies` SET `name` = '$this->name', `price` = '$this->price' WHERE `cookies`.`id` = $this->id";
+    
+            return $mysqli->query($query);
+        }
+
+        function delete() {
+            global $mysqli;
+
+            if ($this->id === null) {
+                throw new Exception('cookie.delete() called on cookie not yet in the database.');
+            }
+
+            $query = "DELETE FROM `cookies` WHERE `cookies`.`id` = $this->id;";
     
             return $mysqli->query($query);
         }
@@ -57,6 +69,40 @@
             }
 
             return $cookies;
+        }
+
+        static function find_by_name($name) {
+            global $mysqli;
+            $query = "SELECT * FROM cookies WHERE name = '$name';";
+    
+            $result = $mysqli->query($query);
+
+            if ($result->num_rows === 0) {
+                return null;
+            }
+
+            $cookie_row = $result->fetch_assoc();
+            $cookie = new Cookie($cookie_row['id'], $cookie_row['name'], $cookie_row['price']);
+        
+            return $cookie;
+
+        }
+
+        static function find_by_id($id) {
+            global $mysqli;
+            $query = "SELECT * FROM cookies WHERE id = '$id';";
+    
+            $result = $mysqli->query($query);
+
+            if ($result->num_rows === 0) {
+                return null;
+            }
+
+            $cookie_row = $result->fetch_assoc();
+            $cookie = new Cookie($cookie_row['id'], $cookie_row['name'], $cookie_row['price']);
+        
+            return $cookie;
+
         }
     }
 
