@@ -26,7 +26,6 @@
         $json = file_get_contents('php://input');
         $request = json_decode($json);
         
-
         $cart = $request->cart;
 
         $buyer = find_buyer($request->firstName, $request->lastName);

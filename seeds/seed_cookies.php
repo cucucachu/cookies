@@ -1,10 +1,15 @@
 <?php
-    include_once "models/cookies_model.php";
+    include_once "models/Cookie.php";
 
     function seed_cookies() {
-        insert_cookie("Chocolate Chip", 4.99);
-        insert_cookie("Oatmeal", 5.99);
-        insert_cookie("Sugar", 4.99);
-        insert_cookie("Gingerbread", 3.99);
+        $chocolate_chip = new Cookie(null, "Chocolate Chip", 4.99);
+        $oatmeal = new Cookie(null, "Oatmeal", 5.99);
+        $sugar = new Cookie(null, "Sugar", 4.99);
+        $gingerbread = new Cookie(null, "Gingerbread", 3.99);
+
+        $chocolate_chip->insert();
+        $oatmeal->insert();
+        $sugar->insert();
+        $gingerbread->insert();
     }
 ?>
