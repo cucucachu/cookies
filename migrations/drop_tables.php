@@ -4,17 +4,30 @@
     function drop_tables() {
         $mysqli = connect();
 
-        $query = "DROP TABLE cookies";
-        $mysqli->query($query); 
-
         $query = "DROP TABLE cookies_sales";
-        $mysqli->query($query);
+        if ($mysqli->query($query) == false) {
+            throw new Exception('Could not drop table cookies_sales.');
+        }; 
+
 
         $query = "DROP TABLE sales";
-        $mysqli->query($query); 
+        if ($mysqli->query($query) == false) {
+            throw new Exception('Could not drop table sales.');
+        }; 
+
+
+        $query = "DROP TABLE cookies";
+        if ($mysqli->query($query) == false) {
+            throw new Exception('Could not drop table cookies.');
+        }; 
 
         $query = "DROP TABLE buyers";
-        $mysqli->query($query); 
+        if ($mysqli->query($query) == false) {
+            throw new Exception('Could not drop table buyers.');
+        }; 
+
+
+        $mysqli->close();
     }
 
 ?>

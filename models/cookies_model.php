@@ -20,4 +20,11 @@
         return $cookies;
     }
 
+    function insert_cookie($name, $price) {
+        global $mysqli;
+        $query = "INSERT INTO `cookies` (`id`, `name`, `price`) VALUES (NULL, '$name', '$price')";
+
+        return $mysqli->query($query);
+    }
+
 ?>
