@@ -1,10 +1,10 @@
 <?php
     function get_sales_from_database() {
         global $mysqli;
-        $sales_query = "SELECT * FROM sale";
+        $sales_query = "SELECT * FROM sales";
         $cookies_query = "SELECT * FROM cookies";
         $buyers_query = "SELECT * FROM buyer";
-        $cookie_sales_query = "SELECT * FROM cookie_sale";
+        $cookie_sales_query = "SELECT * FROM cookies_sales";
     
         $sales_result = $mysqli->query($sales_query);
         $cookies_result = $mysqli->query($cookies_query);

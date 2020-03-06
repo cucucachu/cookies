@@ -2,7 +2,7 @@
     // Models
     include "models/connection.php";
     include "models/sales_model.php";
-    include "models/buyer_model.php";
+    include "models/buyers_model.php";
     include "models/cookie_sales_model.php";
 
     // Views

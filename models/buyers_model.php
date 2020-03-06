@@ -2,7 +2,7 @@
 
     function find_buyer($first_name, $last_name) {
         global $mysqli;
-        $query = "SELECT * FROM buyer WHERE firstName = '$first_name' AND lastName = '$last_name'";
+        $query = "SELECT * FROM buyers WHERE firstName = '$first_name' AND lastName = '$last_name'";
 
         $result = $mysqli->query($query);
         if ($result->num_rows == 0) {
@@ -20,7 +20,7 @@
 
     function insert_buyer($first_name, $last_name) {
         global $mysqli;
-        $query = "INSERT INTO `buyer` (`id`, `firstName`, `lastName`) VALUES (NULL, '$first_name', '$last_name')";
+        $query = "INSERT INTO `buyers` (`id`, `firstName`, `lastName`) VALUES (NULL, '$first_name', '$last_name')";
         $result = $mysqli->query($query);
         var_dump($result);
 
