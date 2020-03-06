@@ -49,18 +49,18 @@ function removeFromCart(cookieId) {
 async function checkout() {
     try {
         await postSale();
+
+        renderError();
+    
+        cart = {};
+        renderCart(cart);
+    
+        const salesRows = await fetchSalesRows();
+    
+        renderSalesRows(salesRows);
     }
     catch(error) {
         renderError(error.message);
         return;
     }
-
-    renderError();
-
-    cart = {};
-    renderCart(cart);
-
-    const salesRows = await fetchSalesRows();
-
-    renderSalesRows(salesRows);
 }

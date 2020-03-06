@@ -3,7 +3,7 @@
         global $mysqli;
         $sales_query = "SELECT * FROM sales";
         $cookies_query = "SELECT * FROM cookies";
-        $buyers_query = "SELECT * FROM buyer";
+        $buyers_query = "SELECT * FROM buyers";
         $cookie_sales_query = "SELECT * FROM cookies_sales";
     
         $sales_result = $mysqli->query($sales_query);
@@ -15,6 +15,10 @@
         $sales = array();
         $buyers = array();
         $cookie_sales = array();
+
+        if ($sales_result->num_rows === 0) {
+            return array();
+        }
 
         for ($i = 0; $i < $sales_result->num_rows; $i++) {
             $sale = $sales_result->fetch_assoc();
@@ -38,8 +42,8 @@
             $buyer = $buyers_result->fetch_assoc();
             $buyer_obj = new \stdClass();
             $buyer_obj->id = $buyer['id'];
-            $buyer_obj->firstName = $buyer['firstName'];
-            $buyer_obj->lastName = $buyer['lastName'];
+            $buyer_obj->first_name = $buyer['first_name'];
+            $buyer_obj->last_name = $buyer['last_name'];
             $buyers[$i] = $buyer_obj;
         }
 
@@ -92,7 +96,7 @@
             for ($ii = 0; $ii < count($buyers); $ii++) {
                 $buyer = $buyers[$ii];
                 if ($buyer->id === $sale->buyer_id) {
-                    $sale_obj->customer = $buyer->firstName . " " . $buyer->lastName;
+                    $sale_obj->customer = $buyer->first_name . " " . $buyer->last_name;
                 }
             }
 
@@ -106,7 +110,7 @@
 
     function insert_sale($buyer_id) {
         global $mysqli;
-        $query = "INSERT INTO `sale` (`id`, `buyer_id`, `date`) VALUES (NULL, '$buyer_id', CURRENT_DATE)";
+        $query = "INSERT INTO `sales` (`id`, `buyer_id`, `date`) VALUES (NULL, '$buyer_id', CURRENT_DATE)";
         $result = $mysqli->query($query);
 
         return $mysqli->insert_id;
