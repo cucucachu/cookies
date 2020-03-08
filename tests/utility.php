@@ -3,15 +3,22 @@
     class Unit_Test {
         private $title;
         private $func;
-        private int $offset;
+        private $before;
+        private $after;
 
-        function __construct(string $title, string $func) {
+        function __construct(string $title, string $func, string $before = null, string $after = null) {
             $this->title = $title;
             $this->func = $func;
+            $this->before = $before;
+            $this->after = $after;
         }
 
         function run($offset = 0) {
             $passed = false;
+
+            if ($this->before !== null) {
+                ($this->before)();
+            }
 
             try {
 
@@ -29,6 +36,10 @@
                 echo_red("X " . $this->title . ": " . $e->getMessage(), $offset);
             }
 
+            if ($this->after !== null) {
+                ($this->after)();
+            }
+
             return $passed;
         }
 
@@ -36,13 +47,18 @@
 
     class Test_Group {
         private string $title;
-        private array $unit_tests;
-        private array $test_groups;
+        private $unit_tests;
+        private $test_groups;
+        private $before;
+        private $after;
 
-        function __construct(string $title, array $unit_tests = array(), array $test_groups = array()) {
+        function __construct(string $title, $unit_tests = array(), 
+            $test_groups = array(), string $before = null, string $after = null) {
             $this->title = $title;
-            $this->unit_tests = $unit_tests;
-            $this->test_groups = $test_groups;
+            $this->unit_tests = $unit_tests === null ? array() : $unit_tests;
+            $this->test_groups = $test_groups === null ? array() : $test_groups;
+            $this->before = $before;
+            $this->after = $after;
         }
 
         function get_number_of_tests() {
@@ -60,6 +76,10 @@
             $total = $this->get_number_of_tests();
             echo_white($this->title, $offset);
 
+            if ($this->before !== null) {
+                ($this->before)();
+            }
+
             foreach ($this->unit_tests as $unit_test) {
                 $result = $unit_test->run($offset + 1);
                 if ($result == true) {
@@ -71,10 +91,18 @@
                 $passed += $test_group->run($offset + 1);
             }
 
+            if ($this->after !== null) {
+                ($this->after)();
+            }
+
             if ($offset == 0) {
+                echo "\n";
                 echo_white("Total Tests: " . $total);
                 echo_green("Tests Passed: " . $passed);
-                echo_red("Tests Failed: " . ($total - $passed));
+
+                if ($total !== $passed) {
+                    echo_red("Tests Failed: " . ($total - $passed));
+                }
             }
 
             return $passed;
