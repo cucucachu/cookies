@@ -2,61 +2,98 @@
     include "models/connection.php";
     include "models/Cookie.php";
 
-    echo "Cookie Tests\n";
+    include_once "tests/utility.php";
 
     $mysqli = connect();
 
-    $cookie = new Cookie(null, "Samoa", 5.00);
+    $tests = array();
 
-    if ($cookie->insert() == false) {
-        throw new Exception("cookie->insert() failed.");
-    }
-    else {
-        echo "\tinsert() Test Passed\n";
-    }
+    $tests[] = new Unit_Test("cookie->insert()", "insert_cookie_test");
+    $tests[] = new Unit_Test("cookie->find_by_name()", "find_by_name_cookie_test");
+    $tests[] = new Unit_Test("cookie->update()", "update_cookie_test");
+    $tests[] = new Unit_Test("cookie->delete()", "delete_cookie_test");
 
-    $cookie = Cookie::find_by_name("Samoa");
+    $other_tests = new Test_Group("Other Tests", $tests);
+    $tests = new Test_Group("Cookie Model Tests", $tests, array($other_tests));
 
-    if ($cookie === null) {
-        throw new Exception("cookie->find_by_id() failed to find cookie.");
-    }
-    else {
-        echo "\tfind_by_id() Test Passed\n";
-    }
+    $tests->run();
 
-    $cookie->price = 6.0;
+    function insert_cookie_test() {
+        $cookie = new Cookie(null, "Samoa", 5.00);
+    
+        if ($cookie->insert() == false) {
+            throw new Exception("cookie->insert() failed.");
+        }
+    
+        $cookie = Cookie::find_by_name("Samoa");
+    
+        if ($cookie === null) {
+            throw new Exception("cookie->find_by_id() failed to find cookie.");
+        }
 
-    if ($cookie->update() === false) {
-        throw new Exception('cookie->update() failed to update cookie.');
-    }
-    else {
-        echo "\tupdate() Test 1 Passed\n";
-    }
-
-    $cookie = Cookie::find_by_name("Samoa");
-
-    if ($cookie->price !== 6.0) {
-        throw new Exception('cookie->update() failed to update cookie price.');
-    }
-    else {
-        echo "\tupdate() Test 2 Passed\n";
+        $cookie->delete();
     }
 
-    if ($cookie->delete() === false) {
-        throw new Exception('cookie->delete() returned false.');
-    }
-    else {
-        echo "\tdelete() Test 1 Passed\n";
+    function find_by_name_cookie_test() {
+
+        $cookie = new Cookie(null, "Samoa", 5.00);
+    
+        if ($cookie->insert() == false) {
+            throw new Exception("cookie->insert() failed.");
+        }
+    
+        $cookie = Cookie::find_by_name("Samoa");
+    
+        if ($cookie === null) {
+            throw new Exception("cookie->find_by_id() failed to find cookie.");
+        }
+
+        $cookie->delete();
     }
 
-    $cookie = Cookie::find_by_id($cookie->id);
+    function update_cookie_test() {
 
-    if ($cookie !== null) {
-        throw new Exception('cookie->delete() did not delete the cookie.');
-    }
-    else {
-        echo "\tdelete() Test 2 Passed\n";
+        $cookie = new Cookie(null, "Samoa", 5.00);
+    
+        if ($cookie->insert() == false) {
+            throw new Exception("cookie->insert() failed.");
+        }
+    
+        $cookie = Cookie::find_by_name("Samoa");
+
+        $cookie->price = 6.0;
+    
+        if ($cookie->update() === false) {
+            throw new Exception('cookie->update() failed to update cookie.');
+        }
+
+        $cookie = Cookie::find_by_name("Samoa");
+    
+        if ($cookie->price !== 6.0) {
+            throw new Exception('cookie->update() failed to update cookie price.');
+        }
+
+        $cookie->delete();
     }
 
-    echo "\tCookie: All Tests Passed\n";
+    function delete_cookie_test() {
+
+        $cookie = new Cookie(null, "Samoa", 5.00);
+    
+        if ($cookie->insert() == false) {
+            throw new Exception("cookie->insert() failed.");
+        }
+
+        $cookie = Cookie::find_by_name("Samoa");
+
+        if ($cookie->delete() === false) {
+            throw new Exception('cookie->delete() returned false.');
+        }
+
+        $cookie = Cookie::find_by_id($cookie->id);
+    
+        if ($cookie !== null) {
+            throw new Exception('cookie->delete() did not delete the cookie.');
+        }
+    }
 ?>
