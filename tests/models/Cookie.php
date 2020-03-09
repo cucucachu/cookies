@@ -25,8 +25,9 @@
     // new Test_Group parameters:
     //    1: string - The name of the group of tests (this gets printed to the console in the results).
     //    2: array - An array containing instances of Unit_Test to run.
-    //    3: string - optional - the name of a function to call before the test group is run, used to set up data for the tests.
-    //    4: string - optional - the name of a function to call after the test group is run, used to clean up data from the tests.
+    //    3: array - An array containing instances of other Test_Groups to run.
+    //    4: string - optional - the name of a function to call before the test group is run, used to set up data for the tests.
+    //    5: string - optional - the name of a function to call after the test group is run, used to clean up data from the tests.
     $tests = new Test_Group("Cookie Model Tests", $tests);
 
 
@@ -53,8 +54,8 @@
     }
 
     // Test functions
-    // Each should return false or throw an Exception if the test failed. 
-    // If no Exception is thrown, and anything but false is returned, test is considered passing.
+    // Each should return false OR throw an Exception if the test failed. 
+    // If no Exception is thrown, false is not returned, the test is considered passing.
 
 
     // insert_cookie_test() - Creates an instance of cookie and inserts it into the database.
